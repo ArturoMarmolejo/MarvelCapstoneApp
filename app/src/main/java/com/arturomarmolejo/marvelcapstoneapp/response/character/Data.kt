@@ -1,4 +1,4 @@
-package com.arturomarmolejo.marvelcapstoneapp.model.character
+package com.arturomarmolejo.marvelcapstoneapp.response.character
 
 
 import com.squareup.moshi.Json
@@ -13,7 +13,7 @@ data class Data(
     @Json(name = "offset")
     val offset: Int = 0,
     @Json(name = "results")
-    val results: List<Result> = listOf(),
+    val characterResults: List<CharacterResult> = listOf(),
     @Json(name = "total")
     val total: Int = 0
 )

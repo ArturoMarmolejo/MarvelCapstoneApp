@@ -1,11 +1,11 @@
-package com.arturomarmolejo.marvelcapstoneapp.model.character
+package com.arturomarmolejo.marvelcapstoneapp.response.character
 
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-data class Result(
+data class CharacterResult(
     @Json(name = "comics")
     val comics: Comics = Comics(),
     @Json(name = "description")
