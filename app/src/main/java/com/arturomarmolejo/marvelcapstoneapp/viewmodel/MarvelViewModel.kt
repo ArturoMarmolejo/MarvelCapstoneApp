@@ -5,7 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.arturomarmolejo.marvelcapstoneapp.model.character.CharacterResponse
+import com.arturomarmolejo.marvelcapstoneapp.response.character.CharacterResponse
+import com.arturomarmolejo.marvelcapstoneapp.response.character.CharacterResult
 import com.arturomarmolejo.marvelcapstoneapp.rest.MarvelRepository
 import com.arturomarmolejo.marvelcapstoneapp.utils.UIState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,15 +24,17 @@ class MarvelViewModel @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
     private var isInitialized = false
 
+    lateinit var selectedCharacterItem: CharacterResult
+
+    private val _allCharacters: MutableLiveData<UIState<CharacterResponse>> = MutableLiveData(UIState.LOADING)
+    val allCharacters: MutableLiveData<UIState<CharacterResponse>> get() = _allCharacters
+
     init {
         if(!isInitialized){
             getAllCharacters()
             isInitialized = true
         }
     }
-
-    private val _allCharacters: MutableLiveData<UIState<CharacterResponse>> = MutableLiveData(UIState.LOADING)
-    private val allCharacters: LiveData<UIState<CharacterResponse>> get() = _allCharacters
 
     private fun getAllCharacters() {
         viewModelScope.launch(ioDispatcher) {

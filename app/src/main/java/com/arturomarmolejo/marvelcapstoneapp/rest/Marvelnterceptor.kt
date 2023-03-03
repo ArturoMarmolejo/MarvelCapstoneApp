@@ -1,11 +1,11 @@
 package com.arturomarmolejo.marvelcapstoneapp.rest
 
-import dagger.hilt.android.lifecycle.HiltViewModel
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.security.MessageDigest
 
 class MarvelInterceptor: Interceptor {
+    private val apiKey = "0034da49ca2e8f3baa0653df93495964"
     override fun intercept(chain: Interceptor.Chain): Response {
         val request = chain.request()
         val originalUrl = request.url
@@ -14,7 +14,7 @@ class MarvelInterceptor: Interceptor {
         val ts = System.currentTimeMillis()
 
         //Generate hash
-        val apiKey = "0034da49ca2e8f3baa0653df93495964"
+
         val privateKey = "d15f73a0a80daca0ca08230c97f36252808a319c"
         val hash = generateHash(ts, privateKey, apiKey)
 
@@ -22,6 +22,7 @@ class MarvelInterceptor: Interceptor {
         val url = originalUrl.newBuilder()
             .addQueryParameter("ts", ts.toString())
             .addQueryParameter("hash", hash)
+            .addQueryParameter("apikey",apiKey)
             .build()
 
         //Build and return the new request
@@ -34,6 +35,6 @@ class MarvelInterceptor: Interceptor {
         val message = "$ts$privateKey$apiKey"
         val md = MessageDigest.getInstance("MD5")
         val digest = md.digest(message.toByteArray())
-        return digest.joinToString(""){"02x".format(it)}
+        return digest.joinToString(""){String.format("%02x", it)}
     }
 }

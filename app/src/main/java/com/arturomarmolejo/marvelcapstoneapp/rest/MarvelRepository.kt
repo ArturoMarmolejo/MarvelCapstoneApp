@@ -1,7 +1,7 @@
 package com.arturomarmolejo.marvelcapstoneapp.rest
 
 import android.util.Log
-import com.arturomarmolejo.marvelcapstoneapp.model.character.CharacterResponse
+import com.arturomarmolejo.marvelcapstoneapp.response.character.CharacterResponse
 import com.arturomarmolejo.marvelcapstoneapp.utils.FailureResponse
 import com.arturomarmolejo.marvelcapstoneapp.utils.NullCharacterListResponse
 import com.arturomarmolejo.marvelcapstoneapp.utils.UIState

@@ -1,4 +1,4 @@
-package com.arturomarmolejo.marvelcapstoneapp.model.character
+package com.arturomarmolejo.marvelcapstoneapp.response.character
 
 
 import com.squareup.moshi.Json

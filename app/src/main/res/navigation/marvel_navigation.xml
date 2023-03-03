@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/character_list_fragment"
+    android:id="@+id/nav">
+    <fragment
+        android:id="@+id/character_list_fragment"
+        android:name="com.arturomarmolejo.marvelcapstoneapp.views.character.CharacterListFragment"
+        android:label="CharacterListFragment"
+        tools:layout="@layout/rv_character_list_fragment"
+        >
+        <action
+            android:id="@+id/action_character_list_fragment_to_characterDetailsFragment"
+            app:destination="@id/characterDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/characterDetailsFragment"
+        android:name="com.arturomarmolejo.marvelcapstoneapp.views.character.CharacterDetailsFragment"
+        android:label="character_details"
+        tools:layout="@layout/character_details_fragment" />
+
+</navigation>
