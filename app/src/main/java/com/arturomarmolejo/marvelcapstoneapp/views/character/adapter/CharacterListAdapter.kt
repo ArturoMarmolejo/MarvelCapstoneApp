@@ -13,7 +13,7 @@ private const val TAG = "CharacterListAdapter"
 class CharacterListAdapter(
     private val itemSet: MutableList<CharacterResult> = mutableListOf(),
     private val onItemClick: (previewCharacterCard: CharacterResult) -> Unit
-): RecyclerView.Adapter<MarvelViewHolder>() {
+): RecyclerView.Adapter<CharacterViewHolder>() {
     fun updateItems(newItems: List<CharacterResult>) {
         if(itemSet != newItems) {
             itemSet.clear()
@@ -25,8 +25,8 @@ class CharacterListAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MarvelViewHolder {
-        return MarvelViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterViewHolder {
+        return CharacterViewHolder(
             CharacterItemBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -35,13 +35,13 @@ class CharacterListAdapter(
         )
     }
 
-    override fun onBindViewHolder(holder: MarvelViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: CharacterViewHolder, position: Int) =
         holder.bind(itemSet[position], onItemClick)
 
     override fun getItemCount(): Int = itemSet.size
 }
 
-class MarvelViewHolder(
+class CharacterViewHolder(
     private val binding: CharacterItemBinding
 ): RecyclerView.ViewHolder(binding.root) {
 
