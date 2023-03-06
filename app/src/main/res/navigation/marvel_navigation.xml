@@ -4,6 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     app:startDestination="@id/character_list_fragment"
     android:id="@+id/nav">
+
+<!--    CHARACTER LIST TO SINGLE CHARACTER DETAILS -->
     <fragment
         android:id="@+id/character_list_fragment"
         android:name="com.arturomarmolejo.marvelcapstoneapp.views.character.CharacterListFragment"
@@ -20,4 +22,39 @@
         android:label="character_details"
         tools:layout="@layout/character_details_fragment" />
 
+<!--    CREATOR LIST TO SINGLE CREATOR DETAILS -->
+
+    <fragment
+        android:id="@+id/creator_list_fragment"
+        android:name="com.arturomarmolejo.marvelcapstoneapp.views.creator.CreatorListFragment"
+        android:label="CreatorListFragment"
+        tools:layout="@layout/rv_creator_list_fragment"
+        >
+        <action
+            android:id="@+id/action_creator_list_fragment_to_creatorDetailsFragment"
+            app:destination="@id/creatorDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/creatorDetailsFragment"
+        android:name="com.arturomarmolejo.marvelcapstoneapp.views.creator.CreatorListFragment"
+        android:label="creator_details"
+        tools:layout="@layout/creator_details_fragment" />
+
+    <!--    COMIC LIST TO SINGLE COMIC DETAILS -->
+
+    <fragment
+        android:id="@+id/comic_list_fragment"
+        android:name="com.arturomarmolejo.marvelcapstoneapp.views.comic.ComicListFragment"
+        android:label="ComicListFragment"
+        tools:layout="@layout/rv_comic_list_fragment"
+        >
+        <action
+            android:id="@+id/action_comic_list_fragment_to_comicDetailsFragment"
+            app:destination="@id/creatorDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/comicDetailsFragment"
+        android:name="com.arturomarmolejo.marvelcapstoneapp.views.comic.ComicListFragment"
+        android:label="comic_details"
+        tools:layout="@layout/comic_details_fragment" />
 </navigation>

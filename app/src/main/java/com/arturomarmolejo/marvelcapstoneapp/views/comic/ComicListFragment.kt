@@ -1,31 +1,28 @@
-package com.arturomarmolejo.marvelcapstoneapp.views.character
+package com.arturomarmolejo.marvelcapstoneapp.views.comic
 
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arturomarmolejo.marvelcapstoneapp.R
-import com.arturomarmolejo.marvelcapstoneapp.databinding.RvCharacterListFragmentBinding
-import com.arturomarmolejo.marvelcapstoneapp.response.character.CharacterResponse
+import com.arturomarmolejo.marvelcapstoneapp.databinding.RvComicListFragmentBinding
 import com.arturomarmolejo.marvelcapstoneapp.utils.BaseFragment
 import com.arturomarmolejo.marvelcapstoneapp.utils.UIState
-import com.arturomarmolejo.marvelcapstoneapp.views.character.adapter.CharacterListAdapter
+import com.arturomarmolejo.marvelcapstoneapp.views.character.adapter.ComicListAdapter
 
-private const val TAG = "CharacterListFragment"
-
-class CharacterListFragment: BaseFragment() {
+private const val TAG = "ComicListFragment"
+class ComicListFragment: BaseFragment() {
     private val binding by lazy {
-        RvCharacterListFragmentBinding.inflate(layoutInflater)
+        RvComicListFragmentBinding.inflate(layoutInflater)
     }
 
-    private val characterListAdapter: CharacterListAdapter by lazy {
-        CharacterListAdapter {
-            marvelViewModel.selectedCharacterItem = it
-            findNavController().navigate(R.id.action_character_list_fragment_to_characterDetailsFragment)
+    private val comicListAdapter: ComicListAdapter by lazy {
+        ComicListAdapter {
+            marvelViewModel.selectedComicItem = it
+            findNavController().navigate(R.id.action_comic_list_fragment_to_comicDetailsFragment)
         }
     }
 
@@ -34,32 +31,29 @@ class CharacterListFragment: BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        binding.characterListRv.apply {
+        binding.comicListRv.apply {
             layoutManager = LinearLayoutManager(
                 requireContext(),
                 LinearLayoutManager.VERTICAL,
                 false
             )
             setHasFixedSize(true)
-            adapter = characterListAdapter
+            adapter = comicListAdapter
         }
 
-        marvelViewModel.allCharacters.observe(viewLifecycleOwner){state ->
+        marvelViewModel.allComics.observe(viewLifecycleOwner){state ->
             when(state) {
                 is UIState.LOADING -> {}
                 is UIState.SUCCESS -> {
-                    characterListAdapter.updateItems(state.response.data.characterResults)
+                    comicListAdapter.updateItems(state.response.data.comicsResults)
                 }
                 is UIState.ERROR -> {
                     showError(state.error.localizedMessage) {
-                        Log.d(TAG, "onCreateView: UIState Error: $state ")
+                        Log.d(TAG, "onCreateView: UIState Error: $state")
                     }
                 }
             }
         }
         return binding.root
     }
-
-
 }
