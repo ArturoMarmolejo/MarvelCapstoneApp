@@ -36,7 +36,7 @@
     </fragment>
     <fragment
         android:id="@+id/creatorDetailsFragment"
-        android:name="com.arturomarmolejo.marvelcapstoneapp.views.creator.CreatorListFragment"
+        android:name="com.arturomarmolejo.marvelcapstoneapp.views.creator.CreatorDetailsFragment"
         android:label="creator_details"
         tools:layout="@layout/creator_details_fragment" />
 
@@ -50,11 +50,11 @@
         >
         <action
             android:id="@+id/action_comic_list_fragment_to_comicDetailsFragment"
-            app:destination="@id/creatorDetailsFragment" />
+            app:destination="@id/comicDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/comicDetailsFragment"
-        android:name="com.arturomarmolejo.marvelcapstoneapp.views.comic.ComicListFragment"
+        android:name="com.arturomarmolejo.marvelcapstoneapp.views.comic.ComicDetailsFragment"
         android:label="comic_details"
         tools:layout="@layout/comic_details_fragment" />
 </navigation>

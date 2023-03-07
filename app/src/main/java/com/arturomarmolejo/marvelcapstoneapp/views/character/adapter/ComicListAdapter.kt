@@ -1,5 +1,6 @@
 package com.arturomarmolejo.marvelcapstoneapp.views.character.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,6 +9,7 @@ import com.arturomarmolejo.marvelcapstoneapp.databinding.ComicItemBinding
 import com.arturomarmolejo.marvelcapstoneapp.response.comic.ComicsResult
 import com.bumptech.glide.Glide
 
+private const val TAG = "ComicListAdapter"
 class ComicListAdapter(
     private val itemSet: MutableList<ComicsResult> = mutableListOf(),
     private val onItemClick: (previewComicCard: ComicsResult) -> Unit
@@ -44,8 +46,9 @@ class ComicViewHolder(
     private val binding: ComicItemBinding
 ): RecyclerView.ViewHolder(binding.root) {
     fun bind(item: ComicsResult, onItemClick: (ComicsResult) -> Unit) {
-        binding.comicName.text = item.title
+        binding.comicName.text = item.id.toString()
         binding.comicSeries.text = item.series.name
+        Log.d(TAG, "bind item: ${item}, Series Name: ${item.series.name}, Series Title: ${item.title}, Thumbnail: ${item.thumbnail.path} ")
 
         itemView.setOnClickListener {
             onItemClick(item)

@@ -11,14 +11,17 @@ import retrofit2.http.Query
 interface MarvelServiceApi {
     @GET(CHARACTER)
     suspend fun getAllCharacters(
+        @Query("limit") limit: Int = 100
     ): Response<CharacterResponse>
 
     @GET(CREATOR)
     suspend fun getAllCreators(
+        @Query("limit") limit: Int = 100
     ): Response<CreatorResponse>
 
     @GET(CREATOR)
     suspend fun getAllComics(
+        @Query("limit") limit: Int = 100
     ): Response<ComicsResponse>
 
     companion object {
