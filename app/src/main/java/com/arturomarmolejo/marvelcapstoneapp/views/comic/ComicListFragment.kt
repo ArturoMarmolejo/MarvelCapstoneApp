@@ -54,6 +54,14 @@ class ComicListFragment: BaseFragment() {
                 }
             }
         }
+        binding.btnSearch.setOnClickListener {
+            val searchQuery = binding.etSearch.text.toString().trim()
+            if(searchQuery.isNotEmpty()) {
+                marvelViewModel.getAllComics(searchQuery)
+            } else {
+                marvelViewModel.getAllComics(null)
+            }
+        }
         return binding.root
     }
 }

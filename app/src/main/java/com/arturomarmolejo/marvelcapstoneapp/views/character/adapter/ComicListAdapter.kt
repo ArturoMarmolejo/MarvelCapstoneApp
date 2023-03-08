@@ -46,7 +46,7 @@ class ComicViewHolder(
     private val binding: ComicItemBinding
 ): RecyclerView.ViewHolder(binding.root) {
     fun bind(item: ComicsResult, onItemClick: (ComicsResult) -> Unit) {
-        binding.comicName.text = item.id.toString()
+        binding.comicName.text = item.title
         binding.comicSeries.text = item.series.name
         Log.d(TAG, "bind item: ${item}, Series Name: ${item.series.name}, Series Title: ${item.title}, Thumbnail: ${item.thumbnail.path} ")
 

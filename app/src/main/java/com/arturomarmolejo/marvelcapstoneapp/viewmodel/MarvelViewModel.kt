@@ -1,7 +1,6 @@
 package com.arturomarmolejo.marvelcapstoneapp.viewmodel
 
 import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -28,6 +27,9 @@ class MarvelViewModel @Inject constructor(
     private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
     private var isInitialized = false
 
+    var nameStartsWith: String? = null
+    var titleStartsWith: String? = null
+
     lateinit var selectedCharacterItem: CharacterResult
     lateinit var selectedCreatorItem: CreatorResult
     lateinit var selectedComicItem: ComicsResult
@@ -43,42 +45,57 @@ class MarvelViewModel @Inject constructor(
 
     init {
         if(!isInitialized){
-            getAllCharacters()
-            getAllCreators()
-            getAllComics()
+            getAllCharacters(nameStartsWith)
+            getAllCreators(nameStartsWith)
+            getAllComics(titleStartsWith)
             isInitialized = true
         }
     }
 
-//    init {
-//        getAllCreators()
-//        getAllCreators()
-//        getAllCharacters()
-//    }
 
-    private fun getAllCharacters() {
+    fun getAllCharacters(nameStartsWith: String? = null) {
         viewModelScope.launch(ioDispatcher) {
-            marvelRepository.getAllCharacters().collect{ result ->
-                _allCharacters.postValue(result)
-                Log.d(TAG, "getAllCharacters ViewModel: $_allCharacters ")
+            if(nameStartsWith != null) {
+                marvelRepository.getAllCharacters(nameStartsWith).collect{ result ->
+                    _allCharacters.postValue(result)
+                }
+            } else {
+                marvelRepository.getAllCharacters().collect{ result ->
+                    _allCharacters.postValue(result)
+                    Log.d(TAG, "getAllCharacters ViewModel: $_allCharacters ")
+                }
+            }
+
+        }
+    }
+
+    fun getAllCreators(nameStartsWith: String? = null) {
+        viewModelScope.launch(ioDispatcher) {
+            if(nameStartsWith != null) {
+                marvelRepository.getAllCreators(nameStartsWith).collect { result ->
+                    _allCreators.postValue(result)
+                }
+            } else {
+                    marvelRepository.getAllCreators().collect{ result ->
+                        _allCreators.postValue(result)
+                }
             }
         }
     }
 
-    private fun getAllCreators() {
+    fun getAllComics(titleStartsWith: String? = null) {
         viewModelScope.launch(ioDispatcher) {
-            marvelRepository.getAllCreators().collect{ result ->
-                _allCreators.postValue(result)
+            if(titleStartsWith != null) {
+                marvelRepository.getAllComics(titleStartsWith).collect { result ->
+                    _allComics.postValue(result)
+                }
+            } else {
+                    marvelRepository.getAllComics().collect{ result ->
+                        _allComics.postValue(result)
+                }
             }
         }
     }
 
-    private fun getAllComics() {
-        viewModelScope.launch(ioDispatcher) {
-            marvelRepository.getAllComics().collect{ result ->
-                _allComics.postValue(result)
-            }
-        }
-    }
 
 }

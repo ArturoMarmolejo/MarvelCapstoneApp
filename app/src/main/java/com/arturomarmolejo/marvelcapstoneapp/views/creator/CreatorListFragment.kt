@@ -59,6 +59,15 @@ class CreatorListFragment: BaseFragment() {
             }
         }
 
+        binding.btnSearch.setOnClickListener {
+            val searchQuery = binding.etSearch.text.toString().trim()
+            if(searchQuery.isNotEmpty()) {
+                marvelViewModel.getAllCreators(searchQuery)
+            } else {
+                marvelViewModel.getAllCreators(null)
+            }
+        }
+
         return binding.root
     }
 
