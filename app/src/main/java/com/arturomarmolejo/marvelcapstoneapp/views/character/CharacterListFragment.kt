@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.arturomarmolejo.marvelcapstoneapp.R
 import com.arturomarmolejo.marvelcapstoneapp.databinding.RvCharacterListFragmentBinding
 import com.arturomarmolejo.marvelcapstoneapp.response.character.CharacterResponse
+import com.arturomarmolejo.marvelcapstoneapp.response.character.CharacterResult
 import com.arturomarmolejo.marvelcapstoneapp.utils.BaseFragment
 import com.arturomarmolejo.marvelcapstoneapp.utils.UIState
 import com.arturomarmolejo.marvelcapstoneapp.views.character.adapter.CharacterListAdapter
@@ -45,6 +46,7 @@ class CharacterListFragment: BaseFragment() {
             adapter = characterListAdapter
         }
 
+
         marvelViewModel.allCharacters.observe(viewLifecycleOwner){state ->
             when(state) {
                 is UIState.LOADING -> {}
@@ -58,8 +60,19 @@ class CharacterListFragment: BaseFragment() {
                 }
             }
         }
+        binding.btnSearch.setOnClickListener {
+            val searchQuery = binding.etSearch.text.toString().trim()
+            if(searchQuery.isNotEmpty()) {
+                marvelViewModel.getAllCharacters(searchQuery)
+            } else {
+                marvelViewModel.getAllCharacters(null)
+            }
+
+        }
         return binding.root
     }
+
+
 
 
 }
