@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arturomarmolejo.marvelcapstoneapp.R
 import com.arturomarmolejo.marvelcapstoneapp.databinding.ComicItemBinding
-import com.arturomarmolejo.marvelcapstoneapp.response.comic.ComicsResult
+import com.arturomarmolejo.marvelcapstoneapp.model.comic.ComicsResult
 import com.bumptech.glide.Glide
 
 private const val TAG = "ComicListAdapter"
