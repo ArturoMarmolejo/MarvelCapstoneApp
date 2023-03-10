@@ -1,10 +1,8 @@
 package com.arturomarmolejo.marvelcapstoneapp.rest
 
-import com.arturomarmolejo.marvelcapstoneapp.response.character.CharacterResponse
-import com.arturomarmolejo.marvelcapstoneapp.response.character.CharacterResult
-import com.arturomarmolejo.marvelcapstoneapp.response.comic.ComicsResponse
-import com.arturomarmolejo.marvelcapstoneapp.response.creator.CreatorResponse
-import com.arturomarmolejo.marvelcapstoneapp.rest.MarvelServiceApi.Companion.CHARACTER
+import com.arturomarmolejo.marvelcapstoneapp.model.character.CharacterResponse
+import com.arturomarmolejo.marvelcapstoneapp.model.comic.ComicsResponse
+import com.arturomarmolejo.marvelcapstoneapp.model.creator.CreatorResponse
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query

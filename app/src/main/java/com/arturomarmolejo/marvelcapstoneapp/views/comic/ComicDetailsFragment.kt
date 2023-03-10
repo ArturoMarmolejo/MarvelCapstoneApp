@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.arturomarmolejo.marvelcapstoneapp.R
 import com.arturomarmolejo.marvelcapstoneapp.databinding.ComicDetailsFragmentBinding
-import com.arturomarmolejo.marvelcapstoneapp.response.comic.ComicsResult
+import com.arturomarmolejo.marvelcapstoneapp.model.comic.ComicsResult
 import com.arturomarmolejo.marvelcapstoneapp.utils.BaseFragment
 import com.bumptech.glide.Glide
 

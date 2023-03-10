@@ -5,13 +5,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arturomarmolejo.marvelcapstoneapp.R
 import com.arturomarmolejo.marvelcapstoneapp.databinding.RvCharacterListFragmentBinding
-import com.arturomarmolejo.marvelcapstoneapp.response.character.CharacterResponse
-import com.arturomarmolejo.marvelcapstoneapp.response.character.CharacterResult
 import com.arturomarmolejo.marvelcapstoneapp.utils.BaseFragment
 import com.arturomarmolejo.marvelcapstoneapp.utils.UIState
 import com.arturomarmolejo.marvelcapstoneapp.views.character.adapter.CharacterListAdapter

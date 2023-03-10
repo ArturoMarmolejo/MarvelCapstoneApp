@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arturomarmolejo.marvelcapstoneapp.R
 import com.arturomarmolejo.marvelcapstoneapp.databinding.CreatorItemBinding
-import com.arturomarmolejo.marvelcapstoneapp.response.creator.CreatorResult
+import com.arturomarmolejo.marvelcapstoneapp.model.creator.CreatorResult
 import com.bumptech.glide.Glide
 
 private const val TAG = "CreatorListAdapter"
