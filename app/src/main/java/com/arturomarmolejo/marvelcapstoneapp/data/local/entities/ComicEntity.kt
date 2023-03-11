@@ -2,14 +2,36 @@ package com.arturomarmolejo.marvelcapstoneapp.data.local.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import com.arturomarmolejo.marvelcapstoneapp.model.comic.*
+import com.arturomarmolejo.marvelcapstoneapp.utils.typeconverters.*
 
+@TypeConverters(
+        CharactersTypeConverter::class,
+        ComicsTypeConverter::class,
+        CreatorTypeConverter::class,
+        CollectedIssuesTypeConverter::class,
+        CollectedIssuesListTypeConverter::class,
+        DateTypeConverter::class,
+        DateListTypeConverter::class,
+        EventsTypeConverter::class,
+        ImageTypeConverter::class,
+        ImageListTypeConverter::class,
+        PriceTypeConverter::class,
+        PriceListTypeConverter::class,
+        TextObjectTypeConverter::class,
+        TextObjectListTypeConverter::class,
+        SeriesTypeConverter::class,
+        StoriesTypeConverter::class,
+        ThumbnailTypeConverter::class,
+        UrlTypeConverter::class,
+        UrlListTypeConverter::class
+)
 @Entity(tableName = "comics")
 data class ComicEntity (
         @PrimaryKey val id: Int,
         val characters: Characters, //*
         val collectedIssues: List<CollectedIssue>, //*
-        //val collections: List<Any>
         val creators: Creators, //*
         val dates: List<Date>, //*
         val description: String?,
