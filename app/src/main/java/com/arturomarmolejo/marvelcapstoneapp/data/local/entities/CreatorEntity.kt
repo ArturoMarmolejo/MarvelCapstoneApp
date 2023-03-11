@@ -38,7 +38,7 @@ data class CreatorEntity(
     val stories: Stories, //*
     val suffix: String,
     val thumbnail: Thumbnail, //*
-    val urls: List<Url>, //*
+    val urls: List<Url>?, //*
 
     val isFavorite: Boolean = false
 )
