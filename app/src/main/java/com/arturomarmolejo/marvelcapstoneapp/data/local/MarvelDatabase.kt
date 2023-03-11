@@ -1,27 +1,13 @@
 package com.arturomarmolejo.marvelcapstoneapp.data.local
 
-import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import androidx.sqlite.db.SupportSQLiteDatabase
 import com.arturomarmolejo.marvelcapstoneapp.data.local.entities.CharacterEntity
 import com.arturomarmolejo.marvelcapstoneapp.data.local.entities.ComicEntity
 import com.arturomarmolejo.marvelcapstoneapp.data.local.entities.CreatorEntity
-import com.arturomarmolejo.marvelcapstoneapp.utils.typeconverters.*
-import androidx.room.migration.Migration
+import com.arturomarmolejo.marvelcapstoneapp.utils.typeconverters.characters.*
 
-@Database(
-    entities = [
-        CharacterEntity::class,
-        ComicEntity::class,
-        CreatorEntity::class,
-    ],
-    version = 2,
-    autoMigrations = [
-        AutoMigration (from = 1, to = 2)
-    ]
-)
 
 @TypeConverters(
     CharactersTypeConverter::class,
@@ -34,6 +20,8 @@ import androidx.room.migration.Migration
     EventsTypeConverter::class,
     ImageTypeConverter::class,
     ImageListTypeConverter::class,
+    ItemTypeConverter::class,
+    ItemListTypeConverter::class,
     PriceTypeConverter::class,
     PriceListTypeConverter::class,
     TextObjectTypeConverter::class,
@@ -44,6 +32,19 @@ import androidx.room.migration.Migration
     UrlTypeConverter::class,
     UrlListTypeConverter::class
 )
+
+@Database(
+    entities = [
+        CharacterEntity::class,
+        ComicEntity::class,
+        CreatorEntity::class,
+    ],
+    version = 1,
+//    autoMigrations = [
+//        AutoMigration (from = 1, to = 2)
+//    ]
+)
+
 
 abstract class MarvelDatabase: RoomDatabase() {
     abstract val marvelDao : MarvelDAO

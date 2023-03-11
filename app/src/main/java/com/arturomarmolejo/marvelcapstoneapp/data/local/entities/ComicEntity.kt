@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.arturomarmolejo.marvelcapstoneapp.model.comic.*
-import com.arturomarmolejo.marvelcapstoneapp.utils.typeconverters.*
+import com.arturomarmolejo.marvelcapstoneapp.utils.typeconverters.comics.*
 
 @TypeConverters(
         CharactersTypeConverter::class,
@@ -17,6 +17,8 @@ import com.arturomarmolejo.marvelcapstoneapp.utils.typeconverters.*
         EventsTypeConverter::class,
         ImageTypeConverter::class,
         ImageListTypeConverter::class,
+        ItemTypeConverter::class,
+        ItemListTypeConverter::class,
         PriceTypeConverter::class,
         PriceListTypeConverter::class,
         TextObjectTypeConverter::class,
@@ -25,7 +27,9 @@ import com.arturomarmolejo.marvelcapstoneapp.utils.typeconverters.*
         StoriesTypeConverter::class,
         ThumbnailTypeConverter::class,
         UrlTypeConverter::class,
-        UrlListTypeConverter::class
+        UrlListTypeConverter::class,
+        VariantTypeConverter::class,
+        VariantListTypeConverter::class,
 )
 @Entity(tableName = "comics")
 data class ComicEntity (

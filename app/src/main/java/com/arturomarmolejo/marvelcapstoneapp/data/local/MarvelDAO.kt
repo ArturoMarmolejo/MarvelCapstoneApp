@@ -25,7 +25,7 @@ interface MarvelDAO {
     @Query("SELECT * from creators")
     suspend fun getAllLocalCreators(): List<CreatorEntity>
 
-    @Query("SELECT * from creators WHERE name like :nameStartsWith")
+    @Query("SELECT * from creators WHERE fullName like :nameStartsWith")
     suspend fun searchCreatorsByName(nameStartsWith: String): List<CreatorEntity>
 
 }
