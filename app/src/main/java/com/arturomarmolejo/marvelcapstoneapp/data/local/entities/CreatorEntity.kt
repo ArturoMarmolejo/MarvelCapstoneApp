@@ -10,7 +10,7 @@ import com.arturomarmolejo.marvelcapstoneapp.model.creator.Events
 import com.arturomarmolejo.marvelcapstoneapp.model.creator.Series
 import com.arturomarmolejo.marvelcapstoneapp.model.creator.Stories
 import com.arturomarmolejo.marvelcapstoneapp.model.creator.Thumbnail
-import com.arturomarmolejo.marvelcapstoneapp.utils.typeconverters.*
+import com.arturomarmolejo.marvelcapstoneapp.utils.typeconverters.creators.*
 
 
 @TypeConverters(

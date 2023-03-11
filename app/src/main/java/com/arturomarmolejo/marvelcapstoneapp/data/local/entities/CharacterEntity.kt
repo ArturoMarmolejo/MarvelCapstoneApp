@@ -5,8 +5,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.arturomarmolejo.marvelcapstoneapp.model.character.*
-import com.arturomarmolejo.marvelcapstoneapp.utils.typeconverters.*
-
+import com.arturomarmolejo.marvelcapstoneapp.utils.typeconverters.characters.*
 
 
 @TypeConverters(
