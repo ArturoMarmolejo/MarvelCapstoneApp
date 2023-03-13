@@ -5,16 +5,17 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arturomarmolejo.marvelcapstoneapp.R
+import com.arturomarmolejo.marvelcapstoneapp.data.model.CharacterModel
 import com.arturomarmolejo.marvelcapstoneapp.databinding.CharacterItemBinding
 import com.arturomarmolejo.marvelcapstoneapp.model.character.CharacterResult
 import com.bumptech.glide.Glide
 
 private const val TAG = "CharacterListAdapter"
 class CharacterListAdapter(
-    private val itemSet: MutableList<CharacterResult> = mutableListOf(),
-    private val onItemClick: (previewCharacterCard: CharacterResult) -> Unit
+    private val itemSet: MutableList<CharacterModel> = mutableListOf(),
+    private val onItemClick: (previewCharacterCard: CharacterModel) -> Unit
 ): RecyclerView.Adapter<CharacterViewHolder>() {
-    fun updateItems(newItems: List<CharacterResult>) {
+    fun updateItems(newItems: List<CharacterModel>) {
         if(itemSet != newItems) {
             itemSet.clear()
             itemSet.addAll(newItems)
@@ -45,7 +46,7 @@ class CharacterViewHolder(
     private val binding: CharacterItemBinding
 ): RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: CharacterResult, onItemClick: (CharacterResult) -> Unit) {
+    fun bind(item: CharacterModel, onItemClick: (CharacterModel) -> Unit) {
         binding.characterName.text = item.name
         binding.characterSeries.text = if(item.series.items.isEmpty()) "TBA" else item.series.items[0].name
 

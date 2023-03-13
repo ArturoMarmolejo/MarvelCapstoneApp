@@ -48,7 +48,7 @@ class CharacterListFragment: BaseFragment() {
             when(state) {
                 is UIState.LOADING -> {}
                 is UIState.SUCCESS -> {
-                    characterListAdapter.updateItems(state.response.data.characterResults)
+                    characterListAdapter.updateItems(state.response)
                 }
                 is UIState.ERROR -> {
                     showError(state.error.localizedMessage) {
