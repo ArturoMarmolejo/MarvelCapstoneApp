@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.arturomarmolejo.marvelcapstoneapp.data.local.entities.CharacterEntity
 import com.arturomarmolejo.marvelcapstoneapp.data.local.entities.CreatorEntity
+import com.arturomarmolejo.marvelcapstoneapp.data.model.CharacterModel
 
 @Dao
 interface MarvelDAO {
@@ -16,8 +17,8 @@ interface MarvelDAO {
     @Query("SELECT * from characters")
     suspend fun getAllLocalCharacters(): List<CharacterEntity>
 
-    @Query("SELECT * from characters WHERE name like :nameStartsWith")
-    suspend fun searchCharactersByName(nameStartsWith: String): List<CharacterEntity>
+    @Query("SELECT * from characters WHERE name like '%' || :nameStartsWith || '%' ")
+    suspend fun searchCharactersByName(nameStartsWith: String? = null): List<CharacterEntity>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertCreators(creators: List<CreatorEntity>?)
