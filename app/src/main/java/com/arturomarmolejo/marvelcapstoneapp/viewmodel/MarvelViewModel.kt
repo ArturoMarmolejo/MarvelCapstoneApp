@@ -83,8 +83,8 @@ class MarvelViewModel @Inject constructor(
                     _allCreators.postValue(result)
                 }
             } else {
-                getAllCharactersUseCase().collect { result ->
-                    _allCharacters.postValue(result)
+                getAllCreatorsUseCase().collect { result ->
+                    _allCreators.postValue(result)
                 }
             }
         }
