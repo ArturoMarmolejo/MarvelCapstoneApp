@@ -100,8 +100,8 @@ class LocalRepositoryImpl @Inject constructor(
     override fun searchComicsByTitle(titleStartsWith: String ): Flow<UIState<List<ComicModel>>> = flow {
         try {
             Log.d(TAG, "Search Comic By Name: Fetching data from local database ")
-            val characterInfo = marvelDAO.searchComicsByTitle(titleStartsWith)
-            emit(UIState.SUCCESS(characterInfo.mapFromEntityToComic()))
+            val comicInfo = marvelDAO.searchComicsByTitle(titleStartsWith)
+            emit(UIState.SUCCESS(comicInfo.mapFromEntityToComic()))
         } catch (e: Exception) {
             emit(UIState.ERROR(e))
         }

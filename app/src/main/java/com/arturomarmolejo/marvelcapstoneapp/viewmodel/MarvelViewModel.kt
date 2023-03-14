@@ -94,7 +94,7 @@ class MarvelViewModel @Inject constructor(
         viewModelScope.launch(ioDispatcher) {
             titleStartsWith = titleStartsWithQuery
             if(titleStartsWith != null) {
-              getAllComicsUseCase(nameStartsWith).collect { result ->
+              getAllComicsUseCase(titleStartsWith).collect { result ->
                   _allComics.postValue(result)
               }
             } else {

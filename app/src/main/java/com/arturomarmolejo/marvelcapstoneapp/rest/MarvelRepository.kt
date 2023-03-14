@@ -94,7 +94,7 @@ class MarvelRepositoryImpl @Inject constructor(
                     Log.d(TAG, "getAllComics Inserting comic in database: $comicInfos")
                     marvelDAO.insertComics(comicInfos.mapToComicEntity())
                     val newComicInfos = if(titleStartsWith == null ) {
-                        Log.d(TAG, "getAllCreators from DAO")
+                        Log.d(TAG, "getAllComics from DAO")
                         marvelDAO.getAllLocalComics()
                     } else marvelDAO.searchComicsByTitle(titleStartsWith)
                     Log.d(TAG, "getAllCreators SUCCESS $newComicInfos")
