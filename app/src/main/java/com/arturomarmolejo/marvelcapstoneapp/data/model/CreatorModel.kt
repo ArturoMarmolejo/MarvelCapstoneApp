@@ -1,17 +1,12 @@
-package com.arturomarmolejo.marvelcapstoneapp.data.local.entities
+package com.arturomarmolejo.marvelcapstoneapp.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.arturomarmolejo.marvelcapstoneapp.model.character.*
-import com.arturomarmolejo.marvelcapstoneapp.model.creator.Comics
-import com.arturomarmolejo.marvelcapstoneapp.model.creator.CreatorResult
-import com.arturomarmolejo.marvelcapstoneapp.model.creator.Events
-import com.arturomarmolejo.marvelcapstoneapp.model.creator.Series
-import com.arturomarmolejo.marvelcapstoneapp.model.creator.Stories
-import com.arturomarmolejo.marvelcapstoneapp.model.creator.Thumbnail
+import com.arturomarmolejo.marvelcapstoneapp.data.local.entities.CreatorEntity
+import com.arturomarmolejo.marvelcapstoneapp.model.character.Url
+import com.arturomarmolejo.marvelcapstoneapp.model.creator.*
 import com.arturomarmolejo.marvelcapstoneapp.utils.typeconverters.creators.*
-
 
 @TypeConverters(
     ComicsTypeConverter::class,
@@ -23,9 +18,8 @@ import com.arturomarmolejo.marvelcapstoneapp.utils.typeconverters.creators.*
     UrlListTypeConverter::class
 )
 
-@Entity(tableName =  "creators")
-data class CreatorEntity(
-    @PrimaryKey val id: Int,
+data class CreatorModel(
+    val id: Int,
     val comics: Comics, //*
     val events: Events, //*
     val firstName: String,
@@ -43,9 +37,9 @@ data class CreatorEntity(
     val isFavorite: Boolean = false
 )
 
-fun List<CreatorResult>?.mapToCreatorEntity(): List<CreatorEntity> {
-    return this?.map {
-        CreatorEntity(
+fun List<CreatorEntity>.mapFromEntityToCreator(): List<CreatorModel> {
+    return this.map {
+        CreatorModel(
             id = it.id,
             comics = it.comics,
             events = it.events,

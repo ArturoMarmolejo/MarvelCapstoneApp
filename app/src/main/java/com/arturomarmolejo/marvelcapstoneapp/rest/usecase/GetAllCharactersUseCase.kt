@@ -7,11 +7,10 @@ import com.arturomarmolejo.marvelcapstoneapp.rest.MarvelRepository
 import com.arturomarmolejo.marvelcapstoneapp.utils.NetworkState
 import com.arturomarmolejo.marvelcapstoneapp.utils.UIState
 import kotlinx.coroutines.flow.Flow
-import org.hamcrest.core.StringStartsWith
 import javax.inject.Inject
 
 private const val TAG = "GetAllCharacters"
-class GetAllCharacters @Inject constructor(
+class GetAllCharactersUseCase @Inject constructor(
     private val localRepository: LocalRepository,
     private val marvelRepository: MarvelRepository,
     private val networkState: NetworkState
