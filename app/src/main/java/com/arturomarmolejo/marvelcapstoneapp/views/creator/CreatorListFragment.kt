@@ -48,7 +48,7 @@ class CreatorListFragment: BaseFragment() {
             when(state) {
                 is UIState.LOADING -> {}
                 is UIState.SUCCESS -> {
-                    creatorListAdapter.updateItems(state.response.data.creatorResults)
+                    creatorListAdapter.updateItems(state.response)
 
                 }
                 is UIState.ERROR -> {

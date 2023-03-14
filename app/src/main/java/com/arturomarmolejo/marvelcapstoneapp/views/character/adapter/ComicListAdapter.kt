@@ -5,17 +5,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arturomarmolejo.marvelcapstoneapp.R
+import com.arturomarmolejo.marvelcapstoneapp.data.model.ComicModel
 import com.arturomarmolejo.marvelcapstoneapp.databinding.ComicItemBinding
 import com.arturomarmolejo.marvelcapstoneapp.model.comic.ComicsResult
 import com.bumptech.glide.Glide
 
 private const val TAG = "ComicListAdapter"
 class ComicListAdapter(
-    private val itemSet: MutableList<ComicsResult> = mutableListOf(),
-    private val onItemClick: (previewComicCard: ComicsResult) -> Unit
+    private val itemSet: MutableList<ComicModel> = mutableListOf(),
+    private val onItemClick: (previewComicCard: ComicModel) -> Unit
 ): RecyclerView.Adapter<ComicViewHolder>() {
 
-    fun updateItems(newItems: List<ComicsResult>) {
+    fun updateItems(newItems: List<ComicModel>) {
         if (itemSet != newItems) {
             itemSet.clear()
             itemSet.addAll(newItems)
@@ -45,7 +46,7 @@ class ComicListAdapter(
 class ComicViewHolder(
     private val binding: ComicItemBinding
 ): RecyclerView.ViewHolder(binding.root) {
-    fun bind(item: ComicsResult, onItemClick: (ComicsResult) -> Unit) {
+    fun bind(item: ComicModel, onItemClick: (ComicModel) -> Unit) {
         binding.comicName.text = item.title
         binding.comicSeries.text = item.series.name
         Log.d(TAG, "bind item: ${item}, Series Name: ${item.series.name}, Series Title: ${item.title}, Thumbnail: ${item.thumbnail.path} ")

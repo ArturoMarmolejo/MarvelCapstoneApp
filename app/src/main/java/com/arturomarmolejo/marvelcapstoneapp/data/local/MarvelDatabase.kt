@@ -1,5 +1,6 @@
 package com.arturomarmolejo.marvelcapstoneapp.data.local
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -41,7 +42,7 @@ import com.arturomarmolejo.marvelcapstoneapp.utils.typeconverters.characters.*
     ],
     version = 1,
 //    autoMigrations = [
-//        AutoMigration (from = 1, to = 2)
+//        AutoMigration (from = 2, to = 3)
 //    ]
 )
 

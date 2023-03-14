@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.arturomarmolejo.marvelcapstoneapp.R
+import com.arturomarmolejo.marvelcapstoneapp.data.model.ComicModel
 import com.arturomarmolejo.marvelcapstoneapp.databinding.ComicDetailsFragmentBinding
 import com.arturomarmolejo.marvelcapstoneapp.model.comic.ComicsResult
 import com.arturomarmolejo.marvelcapstoneapp.utils.BaseFragment
@@ -15,7 +16,7 @@ class ComicDetailsFragment(): BaseFragment() {
         ComicDetailsFragmentBinding.inflate(layoutInflater)
     }
 
-    private lateinit var selectedComic: ComicsResult
+    private lateinit var selectedComic: ComicModel
 
     override fun onCreateView(
         inflater: LayoutInflater,

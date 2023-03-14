@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.arturomarmolejo.marvelcapstoneapp.R
+import com.arturomarmolejo.marvelcapstoneapp.data.model.CreatorModel
 import com.arturomarmolejo.marvelcapstoneapp.databinding.CreatorDetailsFragmentBinding
 import com.arturomarmolejo.marvelcapstoneapp.model.creator.CreatorResult
 import com.arturomarmolejo.marvelcapstoneapp.utils.BaseFragment
@@ -16,7 +17,7 @@ class CreatorDetailsFragment(): BaseFragment() {
         CreatorDetailsFragmentBinding.inflate(layoutInflater)
     }
 
-    private lateinit var selectedCreator: CreatorResult
+    private lateinit var selectedCreator: CreatorModel
 
     override fun onCreateView(
         inflater: LayoutInflater,

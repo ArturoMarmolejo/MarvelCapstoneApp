@@ -2,9 +2,9 @@ package com.arturomarmolejo.marvelcapstoneapp.data.local
 
 import android.util.Log
 import com.arturomarmolejo.marvelcapstoneapp.data.local.entities.CharacterEntity
+import com.arturomarmolejo.marvelcapstoneapp.data.local.entities.ComicEntity
 import com.arturomarmolejo.marvelcapstoneapp.data.local.entities.CreatorEntity
-import com.arturomarmolejo.marvelcapstoneapp.data.model.CharacterModel
-import com.arturomarmolejo.marvelcapstoneapp.data.model.mapFromEntityToCharacter
+import com.arturomarmolejo.marvelcapstoneapp.data.model.*
 import com.arturomarmolejo.marvelcapstoneapp.utils.UIState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -19,8 +19,12 @@ interface LocalRepository {
     fun searchCharactersByName(nameStartWith: String): Flow<UIState<List<CharacterModel>>>
 
     suspend fun insertCreators(creators: List<CreatorEntity>?)
-     suspend fun getAllLocalCreators(): List<CreatorEntity>
-    suspend fun searchCreatorsByName(nameStartsWith: String): List<CreatorEntity>
+    fun getAllLocalCreators(): Flow<UIState<List<CreatorModel>>>
+    fun searchCreatorsByName(nameStartsWith: String): Flow<UIState<List<CreatorModel>>>
+
+    suspend fun insertComics(creators: List<ComicEntity>?)
+    fun getAllLocalComics(): Flow<UIState<List<ComicModel>>>
+    fun searchComicsByTitle(titleStartsWith: String):  Flow<UIState<List<ComicModel>>>
 
 }
 
@@ -58,13 +62,49 @@ class LocalRepositoryImpl @Inject constructor(
         return marvelDAO.insertCreators(creators)
     }
 
-    override suspend fun getAllLocalCreators(): List<CreatorEntity> {
-        return marvelDAO.getAllLocalCreators()
+    override fun getAllLocalCreators(): Flow<UIState<List<CreatorModel>>> = flow {
+        try {
+            Log.d(TAG, "getAllLocalCreators: Fetching data from local database ")
+            val creatorInfo = marvelDAO.getAllLocalCreators()
+            emit(UIState.SUCCESS(creatorInfo.mapFromEntityToCreator()))
+        } catch (e: Exception) {
+            emit(UIState.ERROR(e))
+        }
     }
 
-    override suspend fun searchCreatorsByName(nameStartsWith: String): List<CreatorEntity> {
-        return marvelDAO.searchCreatorsByName(nameStartsWith)
+    override fun searchCreatorsByName(nameStartsWith: String):  Flow<UIState<List<CreatorModel>>> = flow {
+        try {
+            Log.d(TAG, "Search Character By Name: Fetching data from local database ")
+            val creatorInfo = marvelDAO.searchCreatorsByName(nameStartsWith)
+            emit(UIState.SUCCESS(creatorInfo.mapFromEntityToCreator()))
+        } catch (e: Exception) {
+            emit(UIState.ERROR(e))
+        }
     }
 
+
+    override fun getAllLocalComics(): Flow<UIState<List<ComicModel>>> = flow {
+        try {
+            Log.d(TAG, "getAllLocalComics: Fetching data from local database ")
+            val comicInfo = marvelDAO.getAllLocalComics()
+            emit(UIState.SUCCESS(comicInfo.mapFromEntityToComic()))
+        } catch (e: Exception) {
+            emit(UIState.ERROR(e))
+        }
+    }
+
+    override suspend fun insertComics(comics: List<ComicEntity>?) {
+        return marvelDAO.insertComics(comics)
+    }
+
+    override fun searchComicsByTitle(titleStartsWith: String ): Flow<UIState<List<ComicModel>>> = flow {
+        try {
+            Log.d(TAG, "Search Comic By Name: Fetching data from local database ")
+            val characterInfo = marvelDAO.searchComicsByTitle(titleStartsWith)
+            emit(UIState.SUCCESS(characterInfo.mapFromEntityToComic()))
+        } catch (e: Exception) {
+            emit(UIState.ERROR(e))
+        }
+    }
 }
 

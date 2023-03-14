@@ -1,29 +1,33 @@
 package com.arturomarmolejo.marvelcapstoneapp.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arturomarmolejo.marvelcapstoneapp.data.model.CharacterModel
-import com.arturomarmolejo.marvelcapstoneapp.model.character.CharacterResponse
-import com.arturomarmolejo.marvelcapstoneapp.model.character.CharacterResult
+import com.arturomarmolejo.marvelcapstoneapp.data.model.ComicModel
+import com.arturomarmolejo.marvelcapstoneapp.data.model.CreatorModel
 import com.arturomarmolejo.marvelcapstoneapp.model.comic.ComicsResponse
 import com.arturomarmolejo.marvelcapstoneapp.model.comic.ComicsResult
 import com.arturomarmolejo.marvelcapstoneapp.model.creator.CreatorResponse
 import com.arturomarmolejo.marvelcapstoneapp.model.creator.CreatorResult
 import com.arturomarmolejo.marvelcapstoneapp.rest.MarvelRepository
-import com.arturomarmolejo.marvelcapstoneapp.rest.usecase.GetAllCharacters
+import com.arturomarmolejo.marvelcapstoneapp.rest.usecase.GetAllCharactersUseCase
+import com.arturomarmolejo.marvelcapstoneapp.rest.usecase.GetAllComicsUseCase
+import com.arturomarmolejo.marvelcapstoneapp.rest.usecase.GetAllCreatorsUseCase
 import com.arturomarmolejo.marvelcapstoneapp.utils.UIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 private const val TAG = "MarvelViewModel"
 @HiltViewModel
 class MarvelViewModel @Inject constructor(
-    private val getAllCharactersUseCase: GetAllCharacters,
+    private val getAllCharactersUseCase: GetAllCharactersUseCase,
+    private val getAllCreatorsUseCase: GetAllCreatorsUseCase,
+    private val getAllComicsUseCase: GetAllComicsUseCase,
     private val marvelRepository: MarvelRepository
 ): ViewModel() {
 
@@ -34,17 +38,17 @@ class MarvelViewModel @Inject constructor(
     var titleStartsWith: String? = null
 
     lateinit var selectedCharacterItem: CharacterModel
-    lateinit var selectedCreatorItem: CreatorResult
-    lateinit var selectedComicItem: ComicsResult
+    lateinit var selectedCreatorItem: CreatorModel
+    lateinit var selectedComicItem: ComicModel
 
     private val _allCharacters: MutableLiveData<UIState<List<CharacterModel>>> = MutableLiveData(UIState.LOADING)
     val allCharacters: MutableLiveData<UIState<List<CharacterModel>>> get() = _allCharacters
 
-    private val _allCreators: MutableLiveData<UIState<CreatorResponse>> = MutableLiveData(UIState.LOADING)
-    val allCreators: MutableLiveData<UIState<CreatorResponse>> get() = _allCreators
+    private val _allCreators: MutableLiveData<UIState<List<CreatorModel>>> = MutableLiveData(UIState.LOADING)
+    val allCreators: MutableLiveData<UIState<List<CreatorModel>>> get() = _allCreators
 
-    private val _allComics: MutableLiveData<UIState<ComicsResponse>> = MutableLiveData(UIState.LOADING)
-    val allComics: MutableLiveData<UIState<ComicsResponse>> get() = _allComics
+    private val _allComics:  MutableLiveData<UIState<List<ComicModel>>> = MutableLiveData(UIState.LOADING)
+    val allComics:  MutableLiveData<UIState<List<ComicModel>>> get() = _allComics
 
     init {
         if(!isInitialized){
@@ -71,30 +75,33 @@ class MarvelViewModel @Inject constructor(
         }
     }
 
-    fun getAllCreators(nameStartsWith: String? = null) {
+    fun getAllCreators(nameStartsWithQuery: String? = null) {
         viewModelScope.launch(ioDispatcher) {
+            nameStartsWith = nameStartsWithQuery
             if(nameStartsWith != null) {
-                marvelRepository.getAllCreators(nameStartsWith).collect { result ->
+                getAllCreatorsUseCase(nameStartsWith).collect { result ->
                     _allCreators.postValue(result)
                 }
             } else {
-                    marvelRepository.getAllCreators().collect{ result ->
-                        _allCreators.postValue(result)
+                getAllCharactersUseCase().collect { result ->
+                    _allCharacters.postValue(result)
                 }
             }
         }
     }
 
-    fun getAllComics(titleStartsWith: String? = null) {
+    fun getAllComics(titleStartsWithQuery: String? = null) {
         viewModelScope.launch(ioDispatcher) {
+            titleStartsWith = titleStartsWithQuery
             if(titleStartsWith != null) {
-                marvelRepository.getAllComics(titleStartsWith).collect { result ->
+              getAllComicsUseCase(nameStartsWith).collect { result ->
+                  _allComics.postValue(result)
+              }
+            } else {
+                getAllComicsUseCase().collect { result ->
                     _allComics.postValue(result)
                 }
-            } else {
-                    marvelRepository.getAllComics().collect{ result ->
-                        _allComics.postValue(result)
-                }
+
             }
         }
     }

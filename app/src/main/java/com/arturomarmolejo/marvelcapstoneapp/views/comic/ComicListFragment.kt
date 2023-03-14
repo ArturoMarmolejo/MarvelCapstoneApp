@@ -45,7 +45,7 @@ class ComicListFragment: BaseFragment() {
             when(state) {
                 is UIState.LOADING -> {}
                 is UIState.SUCCESS -> {
-                    comicListAdapter.updateItems(state.response.data.comicsResults)
+                    comicListAdapter.updateItems(state.response)
                 }
                 is UIState.ERROR -> {
                     showError(state.error.localizedMessage) {
