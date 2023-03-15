@@ -1,15 +1,14 @@
 package com.arturomarmolejo.marvelcapstoneapp.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.arturomarmolejo.marvelcapstoneapp.data.model.CharacterModel
 import com.arturomarmolejo.marvelcapstoneapp.data.model.ComicModel
 import com.arturomarmolejo.marvelcapstoneapp.data.model.CreatorModel
-import com.arturomarmolejo.marvelcapstoneapp.model.comic.ComicsResponse
-import com.arturomarmolejo.marvelcapstoneapp.model.comic.ComicsResult
-import com.arturomarmolejo.marvelcapstoneapp.model.creator.CreatorResponse
-import com.arturomarmolejo.marvelcapstoneapp.model.creator.CreatorResult
+import com.arturomarmolejo.marvelcapstoneapp.model.series.SeriesResponse
+import com.arturomarmolejo.marvelcapstoneapp.model.series.SeriesResult
 import com.arturomarmolejo.marvelcapstoneapp.rest.MarvelRepository
 import com.arturomarmolejo.marvelcapstoneapp.rest.usecase.GetAllCharactersUseCase
 import com.arturomarmolejo.marvelcapstoneapp.rest.usecase.GetAllComicsUseCase
@@ -18,7 +17,6 @@ import com.arturomarmolejo.marvelcapstoneapp.utils.UIState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -36,10 +34,13 @@ class MarvelViewModel @Inject constructor(
 
     var nameStartsWith: String? = null
     var titleStartsWith: String? = null
+    var selectedCharacterId: String? = ""
 
     lateinit var selectedCharacterItem: CharacterModel
     lateinit var selectedCreatorItem: CreatorModel
     lateinit var selectedComicItem: ComicModel
+    lateinit var selectedCharacterSeries: SeriesResult
+
 
     private val _allCharacters: MutableLiveData<UIState<List<CharacterModel>>> = MutableLiveData(UIState.LOADING)
     val allCharacters: MutableLiveData<UIState<List<CharacterModel>>> get() = _allCharacters
@@ -50,11 +51,16 @@ class MarvelViewModel @Inject constructor(
     private val _allComics:  MutableLiveData<UIState<List<ComicModel>>> = MutableLiveData(UIState.LOADING)
     val allComics:  MutableLiveData<UIState<List<ComicModel>>> get() = _allComics
 
+    private val _allSeriesByCharacter: MutableLiveData<UIState<SeriesResponse>> = MutableLiveData(UIState.LOADING)
+    val allSeriesByCharacter: LiveData<UIState<SeriesResponse>> get() = _allSeriesByCharacter
+
+
     init {
         if(!isInitialized){
             getAllCharacters(nameStartsWith)
             getAllCreators(nameStartsWith)
             getAllComics(titleStartsWith)
+//            getAllSeriesByCharacterId(selectedCharacterId)
             isInitialized = true
         }
     }
@@ -102,6 +108,15 @@ class MarvelViewModel @Inject constructor(
                     _allComics.postValue(result)
                 }
 
+            }
+        }
+    }
+
+    fun getAllSeriesByCharacterId(characterId: String?) {
+        viewModelScope.launch(ioDispatcher) {
+            selectedCharacterId = characterId
+            marvelRepository.getAllSeriesByCharacterId(selectedCharacterId).collect{ result ->
+                _allSeriesByCharacter.postValue(result)
             }
         }
     }

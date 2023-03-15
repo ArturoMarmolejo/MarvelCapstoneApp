@@ -6,16 +6,10 @@ import com.arturomarmolejo.marvelcapstoneapp.data.local.entities.mapToCharacterE
 import com.arturomarmolejo.marvelcapstoneapp.data.local.entities.mapToComicEntity
 import com.arturomarmolejo.marvelcapstoneapp.data.local.entities.mapToCreatorEntity
 import com.arturomarmolejo.marvelcapstoneapp.data.model.*
-import com.arturomarmolejo.marvelcapstoneapp.model.character.CharacterResponse
-import com.arturomarmolejo.marvelcapstoneapp.model.comic.ComicsResponse
-import com.arturomarmolejo.marvelcapstoneapp.model.creator.CreatorResponse
-import com.arturomarmolejo.marvelcapstoneapp.utils.FailureResponse
-import com.arturomarmolejo.marvelcapstoneapp.utils.NullCharacterListResponse
-import com.arturomarmolejo.marvelcapstoneapp.utils.NullCreatorListResponse
-import com.arturomarmolejo.marvelcapstoneapp.utils.UIState
+import com.arturomarmolejo.marvelcapstoneapp.model.series.SeriesResponse
+import com.arturomarmolejo.marvelcapstoneapp.utils.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.Response
 import javax.inject.Inject
 
 private const val TAG = "MarvelRepository"
@@ -23,6 +17,8 @@ interface MarvelRepository {
     fun getAllCharacters(nameStartsWith: String? = null): Flow<UIState<List<CharacterModel>>>
     fun getAllCreators(nameStartsWith: String? = null): Flow<UIState<List<CreatorModel>>>
     fun getAllComics(titleStartsWith: String? = null): Flow<UIState<List<ComicModel>>>
+
+    fun getAllSeriesByCharacterId(id: String?): Flow<UIState<SeriesResponse>>
 }
 
 class MarvelRepositoryImpl @Inject constructor(
@@ -99,7 +95,23 @@ class MarvelRepositoryImpl @Inject constructor(
                     } else marvelDAO.searchComicsByTitle(titleStartsWith)
                     Log.d(TAG, "getAllCreators SUCCESS $newComicInfos")
                     emit(UIState.SUCCESS(newComicInfos.mapFromEntityToComic()))
-                } ?: throw NullCreatorListResponse()
+                } ?: throw NullComicListResponse()
+            } else {
+                throw FailureResponse(response.errorBody()?.string())
+            }
+        } catch (e: Exception) {
+            emit(UIState.ERROR(e))
+        }
+    }
+
+    override fun getAllSeriesByCharacterId(characterId: String?): Flow<UIState<SeriesResponse>> = flow {
+        emit(UIState.LOADING)
+        try {
+            val response = marvelServiceApi.getAllSeriesByCharacter(characterId)
+            if(response.isSuccessful) {
+              response.body()?.let {
+                  emit(UIState.SUCCESS(it))
+              } ?: throw NullSeriesListResponse()
             } else {
                 throw FailureResponse(response.errorBody()?.string())
             }
