@@ -7,6 +7,8 @@ import androidx.lifecycle.viewModelScope
 import com.arturomarmolejo.marvelcapstoneapp.data.model.CharacterModel
 import com.arturomarmolejo.marvelcapstoneapp.data.model.ComicModel
 import com.arturomarmolejo.marvelcapstoneapp.data.model.CreatorModel
+import com.arturomarmolejo.marvelcapstoneapp.model.events.EventResponse
+import com.arturomarmolejo.marvelcapstoneapp.model.events.EventResult
 import com.arturomarmolejo.marvelcapstoneapp.model.series.SeriesResponse
 import com.arturomarmolejo.marvelcapstoneapp.model.series.SeriesResult
 import com.arturomarmolejo.marvelcapstoneapp.rest.MarvelRepository
@@ -40,6 +42,7 @@ class MarvelViewModel @Inject constructor(
     lateinit var selectedCreatorItem: CreatorModel
     lateinit var selectedComicItem: ComicModel
     lateinit var selectedCharacterSeries: SeriesResult
+    lateinit var selectedCharacterEvents: EventResult
 
 
     private val _allCharacters: MutableLiveData<UIState<List<CharacterModel>>> = MutableLiveData(UIState.LOADING)
@@ -53,6 +56,9 @@ class MarvelViewModel @Inject constructor(
 
     private val _allSeriesByCharacter: MutableLiveData<UIState<SeriesResponse>> = MutableLiveData(UIState.LOADING)
     val allSeriesByCharacter: LiveData<UIState<SeriesResponse>> get() = _allSeriesByCharacter
+
+    private val _allEventsByCharacter: MutableLiveData<UIState<EventResponse>> = MutableLiveData(UIState.LOADING)
+    val allEventsByCharacter: LiveData<UIState<EventResponse>> get() = _allEventsByCharacter
 
 
     init {
@@ -120,6 +126,16 @@ class MarvelViewModel @Inject constructor(
             }
         }
     }
+
+    fun getAllEventsByCharacterId(characterId: String?) {
+        viewModelScope.launch(ioDispatcher) {
+            selectedCharacterId = characterId
+            marvelRepository.getAllEventsByCharacterId(selectedCharacterId).collect{ result ->
+                _allEventsByCharacter.postValue(result)
+            }
+        }
+    }
+
 
 
 }

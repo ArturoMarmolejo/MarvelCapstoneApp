@@ -1,4 +1,4 @@
-package com.arturomarmolejo.marvelcapstoneapp.views.character.adapter
+package com.arturomarmolejo.marvelcapstoneapp.views.adapter
 
 import android.util.Log
 import android.view.LayoutInflater

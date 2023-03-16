@@ -11,7 +11,7 @@ import com.arturomarmolejo.marvelcapstoneapp.R
 import com.arturomarmolejo.marvelcapstoneapp.databinding.RvCharacterListFragmentBinding
 import com.arturomarmolejo.marvelcapstoneapp.utils.BaseFragment
 import com.arturomarmolejo.marvelcapstoneapp.utils.UIState
-import com.arturomarmolejo.marvelcapstoneapp.views.character.adapter.CharacterListAdapter
+import com.arturomarmolejo.marvelcapstoneapp.views.adapter.CharacterListAdapter
 
 private const val TAG = "CharacterListFragment"
 

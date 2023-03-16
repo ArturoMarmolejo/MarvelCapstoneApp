@@ -11,7 +11,7 @@ import com.arturomarmolejo.marvelcapstoneapp.R
 import com.arturomarmolejo.marvelcapstoneapp.databinding.RvCreatorListFragmentBinding
 import com.arturomarmolejo.marvelcapstoneapp.utils.BaseFragment
 import com.arturomarmolejo.marvelcapstoneapp.utils.UIState
-import com.arturomarmolejo.marvelcapstoneapp.views.character.adapter.CreatorListAdapter
+import com.arturomarmolejo.marvelcapstoneapp.views.adapter.CreatorListAdapter
 
 private const val TAG = "CreatorListFragment"
 class CreatorListFragment: BaseFragment() {

@@ -6,6 +6,7 @@ import com.arturomarmolejo.marvelcapstoneapp.data.local.entities.mapToCharacterE
 import com.arturomarmolejo.marvelcapstoneapp.data.local.entities.mapToComicEntity
 import com.arturomarmolejo.marvelcapstoneapp.data.local.entities.mapToCreatorEntity
 import com.arturomarmolejo.marvelcapstoneapp.data.model.*
+import com.arturomarmolejo.marvelcapstoneapp.model.events.EventResponse
 import com.arturomarmolejo.marvelcapstoneapp.model.series.SeriesResponse
 import com.arturomarmolejo.marvelcapstoneapp.utils.*
 import kotlinx.coroutines.flow.Flow
@@ -19,6 +20,7 @@ interface MarvelRepository {
     fun getAllComics(titleStartsWith: String? = null): Flow<UIState<List<ComicModel>>>
 
     fun getAllSeriesByCharacterId(id: String?): Flow<UIState<SeriesResponse>>
+    fun getAllEventsByCharacterId(id: String?): Flow<UIState<EventResponse>>
 }
 
 class MarvelRepositoryImpl @Inject constructor(
@@ -112,6 +114,22 @@ class MarvelRepositoryImpl @Inject constructor(
               response.body()?.let {
                   emit(UIState.SUCCESS(it))
               } ?: throw NullSeriesListResponse()
+            } else {
+                throw FailureResponse(response.errorBody()?.string())
+            }
+        } catch (e: Exception) {
+            emit(UIState.ERROR(e))
+        }
+    }
+
+    override fun getAllEventsByCharacterId(characterId: String?): Flow<UIState<EventResponse>> = flow {
+        emit(UIState.LOADING)
+        try {
+            val response = marvelServiceApi.getAllEventsByCharacter(characterId)
+            if(response.isSuccessful) {
+                response.body()?.let {
+                    emit(UIState.SUCCESS(it))
+                } ?: throw NullEventListResponse()
             } else {
                 throw FailureResponse(response.errorBody()?.string())
             }

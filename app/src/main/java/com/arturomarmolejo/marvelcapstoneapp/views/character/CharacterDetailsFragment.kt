@@ -11,7 +11,8 @@ import com.arturomarmolejo.marvelcapstoneapp.data.model.CharacterModel
 import com.arturomarmolejo.marvelcapstoneapp.databinding.CharacterDetailsFragmentBinding
 import com.arturomarmolejo.marvelcapstoneapp.utils.BaseFragment
 import com.arturomarmolejo.marvelcapstoneapp.utils.UIState
-import com.arturomarmolejo.marvelcapstoneapp.views.character.adapter.SeriesListByCharacterAdapter
+import com.arturomarmolejo.marvelcapstoneapp.views.adapter.EventListByCharacterAdapter
+import com.arturomarmolejo.marvelcapstoneapp.views.adapter.SeriesListByCharacterAdapter
 import com.bumptech.glide.Glide
 
 private const val TAG = "CharacterDetailsFragment"
@@ -29,6 +30,13 @@ class CharacterDetailsFragment(): BaseFragment() {
             marvelViewModel.selectedCharacterSeries = it
         }
     }
+
+    private val eventListByCharacterAdapter: EventListByCharacterAdapter by lazy {
+        EventListByCharacterAdapter {
+            marvelViewModel.selectedCharacterEvents = it
+        }
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,23 +70,53 @@ class CharacterDetailsFragment(): BaseFragment() {
             adapter = seriesListByCharacterAdapter
         }
 
+        marvelViewModel.allEventsByCharacter.observe(viewLifecycleOwner) { state ->
+            when(state) {
+                is UIState.LOADING -> {}
+                is UIState.SUCCESS -> {
+                    Log.d(TAG, "onCreateView: Event Items: ${state.response.data.eventResults}")
+                    eventListByCharacterAdapter.updateItems(state.response.data.eventResults)
+                }
+                is UIState.ERROR -> {
+                    showError(state.error.localizedMessage) {
+                        Log.d(TAG, "onCreateView: UIState Error: $state")
+                    }
+                }
+                else -> {
+                    Log.d(TAG, "onCreateView: UNIDENTIFIED EXCEPTION")
+                }
+            }
+        }
+
+        characterDetailsBinding.rvEventListByCharacter.apply{
+            layoutManager = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+            setHasFixedSize(true)
+            adapter = eventListByCharacterAdapter
+        }
+
+
 
         selectedCharacter = marvelViewModel.selectedCharacterItem
 
         //http://gateway.marvel.com/v1/public/series/13082
-        val url = selectedCharacter.series.collectionURI
-        val regex = Regex("/(\\d+)/[^/]*$") // match "/digits/" followed by any characters except slash till the end of the string
-        val matchResult = regex.find(url)
-        val extractedString = matchResult?.groupValues?.get(1)
+        val seriesUrl = selectedCharacter.series.collectionURI
+        val seriesRegex = Regex("/(\\d+)/[^/]*$") // match "/digits/" followed by any characters except slash till the end of the string
+        val seriesMatchResult = seriesRegex.find(seriesUrl)
+        val characterIdExtractedString = seriesMatchResult?.groupValues?.get(1)
 
-        selectedCharacterId = extractedString
+        selectedCharacterId = characterIdExtractedString
 
         marvelViewModel.selectedCharacterId = selectedCharacterId
 
         marvelViewModel.getAllSeriesByCharacterId(selectedCharacterId)
+        marvelViewModel.getAllEventsByCharacterId(selectedCharacterId)
 
         characterDetailsBinding.characterName.text = selectedCharacter.name
-        characterDetailsBinding.tvCharacterDescription.text = selectedCharacter.description
+        characterDetailsBinding.tvCharacterDescription.text = if(selectedCharacter.description != "") selectedCharacter.description else "Description yet to be added"
 
         Glide
             .with(characterDetailsBinding.root)
@@ -89,10 +127,10 @@ class CharacterDetailsFragment(): BaseFragment() {
             .into(characterDetailsBinding.characterThumbnail)
 
         Log.d(TAG, "onCreateView: Character Details Display ${selectedCharacter.series.collectionURI}, $selectedCharacterId," +
-                "$url" +
-                ", $regex," +
-                "$matchResult," +
-                "$extractedString ")
+                "$seriesUrl" +
+                ", $seriesRegex," +
+                "$seriesMatchResult," +
+                "$characterIdExtractedString ")
 
         return characterDetailsBinding.root
     }
@@ -100,7 +138,6 @@ class CharacterDetailsFragment(): BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
     }
-
 
 }
 
