@@ -36,13 +36,19 @@ class MarvelViewModel @Inject constructor(
 
     var nameStartsWith: String? = null
     var titleStartsWith: String? = null
+
     var selectedCharacterId: String? = ""
+    var selectedCreatorId: Int = 0
 
     lateinit var selectedCharacterItem: CharacterModel
     lateinit var selectedCreatorItem: CreatorModel
     lateinit var selectedComicItem: ComicModel
+
     lateinit var selectedCharacterSeries: SeriesResult
     lateinit var selectedCharacterEvents: EventResult
+
+    lateinit var selectedCreatorSeries: SeriesResult
+    lateinit var selectedCreatorEvents: EventResult
 
 
     private val _allCharacters: MutableLiveData<UIState<List<CharacterModel>>> = MutableLiveData(UIState.LOADING)
@@ -60,13 +66,18 @@ class MarvelViewModel @Inject constructor(
     private val _allEventsByCharacter: MutableLiveData<UIState<EventResponse>> = MutableLiveData(UIState.LOADING)
     val allEventsByCharacter: LiveData<UIState<EventResponse>> get() = _allEventsByCharacter
 
+    private val _allSeriesByCreator: MutableLiveData<UIState<SeriesResponse>> = MutableLiveData(UIState.LOADING)
+    val allSeriesByCreator: LiveData<UIState<SeriesResponse>> get() = _allSeriesByCreator
+
+    private val _allEventsByCreator: MutableLiveData<UIState<EventResponse>> = MutableLiveData(UIState.LOADING)
+    val allEventsByCreator: LiveData<UIState<EventResponse>> get() = _allEventsByCreator
+
 
     init {
         if(!isInitialized){
             getAllCharacters(nameStartsWith)
             getAllCreators(nameStartsWith)
             getAllComics(titleStartsWith)
-//            getAllSeriesByCharacterId(selectedCharacterId)
             isInitialized = true
         }
     }
@@ -132,6 +143,24 @@ class MarvelViewModel @Inject constructor(
             selectedCharacterId = characterId
             marvelRepository.getAllEventsByCharacterId(selectedCharacterId).collect{ result ->
                 _allEventsByCharacter.postValue(result)
+            }
+        }
+    }
+
+    fun getAllSeriesByCreatorId(creatorId: Int) {
+        viewModelScope.launch(ioDispatcher) {
+            selectedCreatorId = creatorId
+            marvelRepository.getAllSeriesByCreatorId(selectedCreatorId).collect{ result ->
+                _allSeriesByCreator.postValue(result)
+            }
+        }
+    }
+
+    fun getAllEventsByCreatorId(creatorId: Int) {
+        viewModelScope.launch(ioDispatcher) {
+            selectedCreatorId = creatorId
+            marvelRepository.getAllEventsByCreatorId(selectedCreatorId).collect{ result ->
+                _allEventsByCreator.postValue(result)
             }
         }
     }

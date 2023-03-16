@@ -11,13 +11,13 @@ import com.arturomarmolejo.marvelcapstoneapp.data.model.CharacterModel
 import com.arturomarmolejo.marvelcapstoneapp.databinding.CharacterDetailsFragmentBinding
 import com.arturomarmolejo.marvelcapstoneapp.utils.BaseFragment
 import com.arturomarmolejo.marvelcapstoneapp.utils.UIState
-import com.arturomarmolejo.marvelcapstoneapp.views.adapter.EventListByCharacterAdapter
-import com.arturomarmolejo.marvelcapstoneapp.views.adapter.SeriesListByCharacterAdapter
+import com.arturomarmolejo.marvelcapstoneapp.views.adapter.EventListGeneralAdapter
+import com.arturomarmolejo.marvelcapstoneapp.views.adapter.SeriesListGeneralAdapter
 import com.bumptech.glide.Glide
 
 private const val TAG = "CharacterDetailsFragment"
 class CharacterDetailsFragment(): BaseFragment() {
-    private val characterDetailsBinding by lazy {
+    private val binding by lazy {
         CharacterDetailsFragmentBinding.inflate(layoutInflater)
     }
 
@@ -25,14 +25,14 @@ class CharacterDetailsFragment(): BaseFragment() {
      private var selectedCharacterId: String? = ""
 
 
-    private val seriesListByCharacterAdapter: SeriesListByCharacterAdapter by lazy {
-        SeriesListByCharacterAdapter {
+    private val seriesListGeneralAdapter: SeriesListGeneralAdapter by lazy {
+        SeriesListGeneralAdapter {
             marvelViewModel.selectedCharacterSeries = it
         }
     }
 
-    private val eventListByCharacterAdapter: EventListByCharacterAdapter by lazy {
-        EventListByCharacterAdapter {
+    private val eventListGeneralAdapter: EventListGeneralAdapter by lazy {
+        EventListGeneralAdapter {
             marvelViewModel.selectedCharacterEvents = it
         }
     }
@@ -49,7 +49,7 @@ class CharacterDetailsFragment(): BaseFragment() {
                 is UIState.LOADING -> {}
                 is UIState.SUCCESS -> {
                     Log.d(TAG, "onCreateView: Series Items: ${state.response.data.seriesResults}")
-                    seriesListByCharacterAdapter.updateItems(state.response.data.seriesResults)
+                    seriesListGeneralAdapter.updateItems(state.response.data.seriesResults)
                 }
                 is UIState.ERROR -> {
                     showError(state.error.localizedMessage) {
@@ -60,14 +60,14 @@ class CharacterDetailsFragment(): BaseFragment() {
         }
 
 
-        characterDetailsBinding.rvSeriesListByCharacter.apply{
+        binding.rvSeriesListByCharacter.apply{
             layoutManager = LinearLayoutManager(
                 requireContext(),
                 LinearLayoutManager.HORIZONTAL,
                 false
             )
             setHasFixedSize(true)
-            adapter = seriesListByCharacterAdapter
+            adapter = seriesListGeneralAdapter
         }
 
         marvelViewModel.allEventsByCharacter.observe(viewLifecycleOwner) { state ->
@@ -75,7 +75,7 @@ class CharacterDetailsFragment(): BaseFragment() {
                 is UIState.LOADING -> {}
                 is UIState.SUCCESS -> {
                     Log.d(TAG, "onCreateView: Event Items: ${state.response.data.eventResults}")
-                    eventListByCharacterAdapter.updateItems(state.response.data.eventResults)
+                    eventListGeneralAdapter.updateItems(state.response.data.eventResults)
                 }
                 is UIState.ERROR -> {
                     showError(state.error.localizedMessage) {
@@ -88,14 +88,14 @@ class CharacterDetailsFragment(): BaseFragment() {
             }
         }
 
-        characterDetailsBinding.rvEventListByCharacter.apply{
+        binding.rvEventListByCharacter.apply{
             layoutManager = LinearLayoutManager(
                 requireContext(),
                 LinearLayoutManager.HORIZONTAL,
                 false
             )
             setHasFixedSize(true)
-            adapter = eventListByCharacterAdapter
+            adapter = eventListGeneralAdapter
         }
 
 
@@ -115,16 +115,16 @@ class CharacterDetailsFragment(): BaseFragment() {
         marvelViewModel.getAllSeriesByCharacterId(selectedCharacterId)
         marvelViewModel.getAllEventsByCharacterId(selectedCharacterId)
 
-        characterDetailsBinding.characterName.text = selectedCharacter.name
-        characterDetailsBinding.tvCharacterDescription.text = if(selectedCharacter.description != "") selectedCharacter.description else "Description yet to be added"
+        binding.characterName.text = selectedCharacter.name
+        binding.tvCharacterDescription.text = if(selectedCharacter.description != "") selectedCharacter.description else "Description yet to be added"
 
         Glide
-            .with(characterDetailsBinding.root)
+            .with(binding.root)
             .load(selectedCharacter.thumbnail.path + "." + selectedCharacter.thumbnail.extension)
             .centerCrop()
             .placeholder(R.drawable.baseline_person_24)
             .error(R.drawable.baseline_person_off_24)
-            .into(characterDetailsBinding.characterThumbnail)
+            .into(binding.characterThumbnail)
 
         Log.d(TAG, "onCreateView: Character Details Display ${selectedCharacter.series.collectionURI}, $selectedCharacterId," +
                 "$seriesUrl" +
@@ -132,11 +132,7 @@ class CharacterDetailsFragment(): BaseFragment() {
                 "$seriesMatchResult," +
                 "$characterIdExtractedString ")
 
-        return characterDetailsBinding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
+        return binding.root
     }
 
 }

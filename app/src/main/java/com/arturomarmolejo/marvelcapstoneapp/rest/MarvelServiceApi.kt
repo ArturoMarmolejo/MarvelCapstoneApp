@@ -43,6 +43,21 @@ interface MarvelServiceApi {
         @Query("limit") limit: Int = 10,
     ): Response<EventResponse>
 
+    @GET("$CREATOR/{creatorId}/series")
+    suspend fun getAllSeriesByCreator(
+        //@Query("nameStartsWith") nameStartsWith: String? = null,
+        @Path("creatorId") creatorId: Int,
+        @Query("limit") limit: Int = 10,
+    ): Response<SeriesResponse>
+
+    @GET("$CREATOR/{creatorId}/events")
+    suspend fun getAllEventsByCreator(
+        //@Query("nameStartsWith") nameStartsWith: String? = null,
+        @Path("creatorId") creatorId: Int,
+        @Query("limit") limit: Int = 10,
+    ): Response<EventResponse>
+
+
     companion object {
         const val BASE_URL = "http://gateway.marvel.com/v1/public/"
         private const val CHARACTER = "characters"

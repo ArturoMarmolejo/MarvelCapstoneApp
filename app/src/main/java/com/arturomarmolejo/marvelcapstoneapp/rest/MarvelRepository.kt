@@ -21,6 +21,9 @@ interface MarvelRepository {
 
     fun getAllSeriesByCharacterId(id: String?): Flow<UIState<SeriesResponse>>
     fun getAllEventsByCharacterId(id: String?): Flow<UIState<EventResponse>>
+    fun getAllSeriesByCreatorId(id:Int): Flow<UIState<SeriesResponse>>
+
+    fun getAllEventsByCreatorId(CreatorId: Int): Flow<UIState<EventResponse>>
 }
 
 class MarvelRepositoryImpl @Inject constructor(
@@ -130,6 +133,38 @@ class MarvelRepositoryImpl @Inject constructor(
                 response.body()?.let {
                     emit(UIState.SUCCESS(it))
                 } ?: throw NullEventListResponse()
+            } else {
+                throw FailureResponse(response.errorBody()?.string())
+            }
+        } catch (e: Exception) {
+            emit(UIState.ERROR(e))
+        }
+    }
+
+    override fun getAllSeriesByCreatorId(creatorId: Int): Flow<UIState<SeriesResponse>> = flow {
+        emit(UIState.LOADING)
+        try {
+            val response = marvelServiceApi.getAllSeriesByCreator(creatorId)
+            if(response.isSuccessful) {
+                response.body()?.let {
+                    emit(UIState.SUCCESS(it))
+                } ?: throw NullSeriesListResponse()
+            } else {
+                throw FailureResponse(response.errorBody()?.string())
+            }
+        } catch (e: Exception) {
+            emit(UIState.ERROR(e))
+        }
+    }
+
+    override fun getAllEventsByCreatorId(creatorId: Int): Flow<UIState<EventResponse>> = flow {
+        emit(UIState.LOADING)
+        try {
+            val response = marvelServiceApi.getAllEventsByCreator(creatorId)
+            if(response.isSuccessful) {
+                response.body()?.let {
+                    emit(UIState.SUCCESS(it))
+                } ?: throw NullSeriesListResponse()
             } else {
                 throw FailureResponse(response.errorBody()?.string())
             }
