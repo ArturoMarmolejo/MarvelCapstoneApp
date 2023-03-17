@@ -7,6 +7,11 @@ import androidx.lifecycle.viewModelScope
 import com.arturomarmolejo.marvelcapstoneapp.data.model.CharacterModel
 import com.arturomarmolejo.marvelcapstoneapp.data.model.ComicModel
 import com.arturomarmolejo.marvelcapstoneapp.data.model.CreatorModel
+import com.arturomarmolejo.marvelcapstoneapp.model.character.CharacterResponse
+import com.arturomarmolejo.marvelcapstoneapp.model.character.CharacterResult
+import com.arturomarmolejo.marvelcapstoneapp.model.comic.ComicsResult
+import com.arturomarmolejo.marvelcapstoneapp.model.creator.CreatorResponse
+import com.arturomarmolejo.marvelcapstoneapp.model.creator.CreatorResult
 import com.arturomarmolejo.marvelcapstoneapp.model.events.EventResponse
 import com.arturomarmolejo.marvelcapstoneapp.model.events.EventResult
 import com.arturomarmolejo.marvelcapstoneapp.model.series.SeriesResponse
@@ -39,6 +44,7 @@ class MarvelViewModel @Inject constructor(
 
     var selectedCharacterId: String? = ""
     var selectedCreatorId: Int = 0
+    var selectedComicId: Int = 0
 
     lateinit var selectedCharacterItem: CharacterModel
     lateinit var selectedCreatorItem: CreatorModel
@@ -49,6 +55,8 @@ class MarvelViewModel @Inject constructor(
 
     lateinit var selectedCreatorSeries: SeriesResult
     lateinit var selectedCreatorEvents: EventResult
+    lateinit var selectedComicCharacter: CharacterResult
+    lateinit var selectedComicCreator: CreatorResult
 
 
     private val _allCharacters: MutableLiveData<UIState<List<CharacterModel>>> = MutableLiveData(UIState.LOADING)
@@ -72,7 +80,11 @@ class MarvelViewModel @Inject constructor(
     private val _allEventsByCreator: MutableLiveData<UIState<EventResponse>> = MutableLiveData(UIState.LOADING)
     val allEventsByCreator: LiveData<UIState<EventResponse>> get() = _allEventsByCreator
 
+    private val _allCharactersByComic: MutableLiveData<UIState<CharacterResponse>> = MutableLiveData(UIState.LOADING)
+    val allCharactersByComic: LiveData<UIState<CharacterResponse>> get() = _allCharactersByComic
 
+    private val _allCreatorsByComic: MutableLiveData<UIState<CreatorResponse>> = MutableLiveData(UIState.LOADING)
+    val allCreatorsByComic: LiveData<UIState<CreatorResponse>> get() = _allCreatorsByComic
     init {
         if(!isInitialized){
             getAllCharacters(nameStartsWith)
@@ -165,6 +177,23 @@ class MarvelViewModel @Inject constructor(
         }
     }
 
+    fun getAllCharactersByComicId(comicId: Int) {
+        viewModelScope.launch(ioDispatcher) {
+            selectedComicId = comicId
+            marvelRepository.getAllCharactersByComicId(selectedComicId).collect{ result ->
+                _allCharactersByComic.postValue(result)
+            }
+        }
+    }
+
+    fun getAllCreatorsByComicId(comicId: Int) {
+        viewModelScope.launch(ioDispatcher) {
+            selectedComicId = comicId
+            marvelRepository.getAllCreatorsByComicId(selectedComicId).collect{ result ->
+                _allCreatorsByComic.postValue(result)
+            }
+        }
+    }
 
 
 }

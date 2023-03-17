@@ -1,77 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.core.widget.NestedScrollView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".views.comic.ComicDetailsFragment">
-    <ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
+        android:layout_height="wrap_content"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        tools:context=".views.character.CharacterDetailsFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/relative"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:orientation="vertical"
             >
 
             <ImageView
                 android:id="@+id/comic_thumbnail"
-                android:layout_width="363dp"
-                android:layout_height="170dp"
+                android:layout_width="190dp"
+                android:layout_height="190dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:contentDescription="Comic Cover Thumbnail"
+                android:layout_marginTop="10dp"
+                android:contentDescription="Comic Thumbnail"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-                <TextView
-                    android:id="@+id/comic_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="20dp"
-                    android:padding="8dp"
-                    android:text="Comic series name"
-                    android:textSize="30sp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/comic_thumbnail"
-                    />
-
-                <!--                <ImageButton-->
-                <!--                    android:id="@+id/btn_bookmark_toggle"-->
-                <!--                    android:layout_width="wrap_content"-->
-                <!--                    android:layout_height="wrap_content"-->
-                <!--                    android:backgroundTint="@color/white"-->
-                <!--                    android:src="@drawable/baseline_bookmark_border_24"-->
-                <!--                    android:layout_alignParentBottom="true"-->
-                <!--                    android:layout_alignParentEnd="true" />-->
-            </LinearLayout>
+            <TextView
+                android:id="@+id/comic_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="20dp"
+                android:padding="8dp"
+                android:text="Comic name"
+                android:textSize="20sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@id/comic_thumbnail"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingRight="5dp"
+                app:layout_constrainedWidth="true"
+                />
 
             <TextView
                 android:id="@+id/tv_comic_description"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Description:"
+                android:text="Comic description"
                 android:textSize="15sp"
                 android:textColor="@color/black"
-                android:layout_marginLeft="25dp"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginStart="16dp"
+                android:contentDescription="@string/character_thumbnail"
+                app:layout_constraintStart_toEndOf="@id/comic_thumbnail"
                 app:layout_constraintTop_toBottomOf="@id/comic_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:paddingRight="5dp"
+                app:layout_constrainedWidth="true"
                 />
 
-        </LinearLayout>
-    </ScrollView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/tv_character_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:padding="8dp"
+            android:text="Character List"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/relative"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_character_list_by_comic"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="List of Characters"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_character_title" />
+
+        <TextView
+            android:id="@+id/tv_creators_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:padding="8dp"
+            android:text="Events List"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rv_character_list_by_comic"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_creator_list_by_comic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="List of Creators"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_creators_title"
+            />
+
+        <TextView
+            android:id="@+id/tv_foot_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:padding="8dp"
+            android:text=""
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rv_creator_list_by_comic"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

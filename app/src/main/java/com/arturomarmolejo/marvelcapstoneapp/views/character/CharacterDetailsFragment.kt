@@ -22,7 +22,7 @@ class CharacterDetailsFragment(): BaseFragment() {
     }
 
     private lateinit var selectedCharacter:CharacterModel
-     private var selectedCharacterId: String? = ""
+    private var selectedCharacterId: String? = ""
 
 
     private val seriesListGeneralAdapter: SeriesListGeneralAdapter by lazy {

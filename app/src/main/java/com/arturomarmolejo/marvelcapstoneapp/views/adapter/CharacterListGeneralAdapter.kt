@@ -5,16 +5,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arturomarmolejo.marvelcapstoneapp.R
+import com.arturomarmolejo.marvelcapstoneapp.databinding.CharacterItemDetailsBinding
 import com.arturomarmolejo.marvelcapstoneapp.databinding.EventItemGeneralBinding
+import com.arturomarmolejo.marvelcapstoneapp.model.character.CharacterResult
 import com.arturomarmolejo.marvelcapstoneapp.model.events.EventResult
 import com.bumptech.glide.Glide
 
-private const val TAG = "EventListByCharacterAda"
-class EventListGeneralAdapter(
-    private val itemSet: MutableList<EventResult> = mutableListOf(),
-    private val onItemClick: (previewEventCard: EventResult) -> Unit
-): RecyclerView.Adapter< EventListByCharacterViewHolder>() {
-    fun updateItems(newItems: List<EventResult>) {
+private const val TAG = "CharacterListGeneralAda"
+class CharacterListGeneralAdapter(
+    private val itemSet: MutableList<CharacterResult> = mutableListOf(),
+    private val onItemClick: (previewCharacterCard: CharacterResult) -> Unit
+): RecyclerView.Adapter<CharacterListGeneralViewHolder>() {
+    fun updateItems(newItems: List<CharacterResult>) {
         if(itemSet != newItems) {
             itemSet.clear()
             itemSet.addAll(newItems)
@@ -25,9 +27,9 @@ class EventListGeneralAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventListByCharacterViewHolder {
-        return  EventListByCharacterViewHolder(
-            EventItemGeneralBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharacterListGeneralViewHolder {
+        return CharacterListGeneralViewHolder(
+            CharacterItemDetailsBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -35,19 +37,18 @@ class EventListGeneralAdapter(
         )
     }
 
-    override fun onBindViewHolder(holder: EventListByCharacterViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: CharacterListGeneralViewHolder, position: Int) =
         holder.bind(itemSet[position], onItemClick)
 
     override fun getItemCount(): Int = itemSet.size
 }
 
-class EventListByCharacterViewHolder(
-    private val binding: EventItemGeneralBinding
+class CharacterListGeneralViewHolder(
+    private val binding: CharacterItemDetailsBinding
 ): RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: EventResult, onItemClick: (EventResult) -> Unit) {
-        binding.eventName.text = item.title
-//        binding.characterSeries.text = if(item.series.items.isEmpty()) "TBA" else item.series.items[0].name
+    fun bind(item: CharacterResult, onItemClick: (CharacterResult) -> Unit) {
+        binding.characterName.text = item.name
 
 
         itemView.setOnClickListener {
@@ -62,6 +63,6 @@ class EventListByCharacterViewHolder(
             .centerCrop()
             .placeholder(R.drawable.baseline_person_24)
             .error(R.drawable.baseline_person_off_24)
-            .into(binding.eventThumbnail)
+            .into(binding.characterThumbnail)
     }
 }

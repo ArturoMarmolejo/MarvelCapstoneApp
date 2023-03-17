@@ -5,16 +5,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.arturomarmolejo.marvelcapstoneapp.R
-import com.arturomarmolejo.marvelcapstoneapp.databinding.EventItemGeneralBinding
-import com.arturomarmolejo.marvelcapstoneapp.model.events.EventResult
+import com.arturomarmolejo.marvelcapstoneapp.databinding.CreatorItemDetailsBinding
+import com.arturomarmolejo.marvelcapstoneapp.model.creator.CreatorResult
 import com.bumptech.glide.Glide
 
-private const val TAG = "EventListByCharacterAda"
-class EventListGeneralAdapter(
-    private val itemSet: MutableList<EventResult> = mutableListOf(),
-    private val onItemClick: (previewEventCard: EventResult) -> Unit
-): RecyclerView.Adapter< EventListByCharacterViewHolder>() {
-    fun updateItems(newItems: List<EventResult>) {
+private const val TAG = "CharacterListGeneralAda"
+class CreatorListGeneralAdapter(
+    private val itemSet: MutableList<CreatorResult> = mutableListOf(),
+    private val onItemClick: (previewCreatorCard: CreatorResult) -> Unit
+): RecyclerView.Adapter<CreatorListGeneralViewHolder>() {
+    fun updateItems(newItems: List<CreatorResult>) {
         if(itemSet != newItems) {
             itemSet.clear()
             itemSet.addAll(newItems)
@@ -25,9 +25,9 @@ class EventListGeneralAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventListByCharacterViewHolder {
-        return  EventListByCharacterViewHolder(
-            EventItemGeneralBinding.inflate(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CreatorListGeneralViewHolder {
+        return CreatorListGeneralViewHolder(
+            CreatorItemDetailsBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
                 false
@@ -35,19 +35,18 @@ class EventListGeneralAdapter(
         )
     }
 
-    override fun onBindViewHolder(holder: EventListByCharacterViewHolder, position: Int) =
+    override fun onBindViewHolder(holder: CreatorListGeneralViewHolder, position: Int) =
         holder.bind(itemSet[position], onItemClick)
 
     override fun getItemCount(): Int = itemSet.size
 }
 
-class EventListByCharacterViewHolder(
-    private val binding: EventItemGeneralBinding
+class CreatorListGeneralViewHolder(
+    private val binding: CreatorItemDetailsBinding
 ): RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: EventResult, onItemClick: (EventResult) -> Unit) {
-        binding.eventName.text = item.title
-//        binding.characterSeries.text = if(item.series.items.isEmpty()) "TBA" else item.series.items[0].name
+    fun bind(item: CreatorResult, onItemClick: (CreatorResult) -> Unit) {
+        binding.creatorName.text = item.fullName
 
 
         itemView.setOnClickListener {
@@ -62,6 +61,6 @@ class EventListByCharacterViewHolder(
             .centerCrop()
             .placeholder(R.drawable.baseline_person_24)
             .error(R.drawable.baseline_person_off_24)
-            .into(binding.eventThumbnail)
+            .into(binding.creatorThumbnail)
     }
 }
